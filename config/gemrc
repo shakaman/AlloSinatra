@@ -1,0 +1,10 @@
+benchmark: false
+gem: --no-ri 00no-rdoc 00user-install
+:update_source: true
+:backtrace: false
+:verbose: true
+:bulk_threshold: 1000
+:sources:
+- http://rubygems.org
+
+# vim: filetype=yaml
