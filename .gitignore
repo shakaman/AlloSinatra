@@ -1,4 +1,4 @@
 config/linphonerc
-config/developement.yml
+config/development.yml
 config/mongoid.yml
 .rvmrc
