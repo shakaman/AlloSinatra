@@ -1,7 +1,16 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
+
 $:.unshift(File.dirname(__FILE__) + '/../lib')
-require 'allo_sinatra'
+
+puts 'Loading...'
+ENV['RACK_ENV'] ||= 'development'
+
 require 'pry'
+require File.expand_path '../../lib/allosinatra', __FILE__
+
+AlloSinatra.initialize
+# autoload class
+AlloSinatra::App
 
 Pry.start

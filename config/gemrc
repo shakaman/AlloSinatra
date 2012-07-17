@@ -1,5 +1,5 @@
 benchmark: false
-gem: --no-ri 00no-rdoc 00user-install
+gem: --no-ri --no-rdoc --user-install
 :update_source: true
 :backtrace: false
 :verbose: true

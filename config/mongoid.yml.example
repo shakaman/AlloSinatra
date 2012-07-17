@@ -1,13 +1,20 @@
 development:
-  host: localhost
-  database: allosinatra_dev
-  identity_map_enabled: true
+  sessions:
+    default:
+      database: allosinatra_dev
+      hosts:
+        - localhost:27017
 
 production:
-  host: localhost
-  database: allosinatra_prod
-  identity_map_enabled: true
+  sessions:
+    default:
+      database: allosinatra_prod
+      hosts:
+        - localhost:27017
 
-test:
-  host: localhost
-  database: allosinatra_test
+production:
+  sessions:
+    default:
+      database: allosinatra_test
+      hosts:
+        - localhost:27017
