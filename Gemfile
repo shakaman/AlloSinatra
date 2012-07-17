@@ -14,6 +14,10 @@ gem 'bson_ext'
 # JSON
 gem 'yajl-ruby'
 
+# pagination
+gem 'kaminari', :require => 'kaminari/sinatra'
+gem 'padrino-helpers'
+
 # Mail
 # gem 'pony'
 

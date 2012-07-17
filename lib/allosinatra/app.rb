@@ -7,7 +7,52 @@ require 'open3'
 
 module AlloSinatra
   class App < Sinatra::Base
+    register Kaminari::Helpers::SinatraHelpers
     helpers Sinatra::JSON
+
+    # Return list of confcalls
+    get '/confcalls' do
+      confcall = Confcall.page(params[:page])
+      confcall.to_json
+    end
+
+    # Create a new confcall
+    post '/confcalls' do
+      confcall = Confcall.new(params[:confcall])
+      if confcall.save
+        confcall.to_json
+      else
+        halt '400'
+      end
+    end
+
+    # Update a confcall
+    put '/confcalls/:id' do
+      confcall = Confcall.find(params[:id])
+      if confcall.update_attributes(params[:confcall])
+        confcall.to_json
+      else
+        halt '400'
+      end
+    end
+
+    # Show a confcall
+    get '/confcalls/:id' do
+      Confcall.find(params[:id]).to_json
+    end
+
+    # Delete a confcall
+    delete '/confcalls/:id' do
+      confcall = Confcall.find(params[:id])
+      if confcall.destroy
+        halt '200'
+      else
+        halt '404'
+      end
+    end
+
+
+
 
     get '/init' do
       command = "linphonecsh init -c config/linphonerc"
@@ -57,10 +102,6 @@ module AlloSinatra
       command = "linphonecsh generic 'soundcard use files'"
       Open3.popen3(command)
     end
-
-
-    # register after redefinition of signup
-    #register Sinatra::SinatraAuthentication
 
     # 404
     not_found do

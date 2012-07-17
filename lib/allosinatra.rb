@@ -3,6 +3,7 @@
 # gems
 require 'mongoid'
 require 'pathname'
+require 'kaminari/sinatra'
 
 module AlloSinatra
   autoload :App,          'allosinatra/app'

@@ -7,14 +7,14 @@ module AlloSinatra
 
     field :title,           type: String
     field :phone,           type: Integer
+    field :password,        type: Integer
     field :private,         type: Boolean,  default: 0
     field :duration,        type: Integer
     field :author,          type: String
     field :author_email,    type: String
 
     validates_presence_of :phone
-    validates_presence_of :author
-    validates_presence_of :author_email
-    #validates_uniqueness_of :name
+    #validates_presence_of :author
+    #validates_presence_of :author_email
   end
 end
