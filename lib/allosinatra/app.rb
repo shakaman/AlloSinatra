@@ -9,6 +9,7 @@ module AlloSinatra
   class App < Sinatra::Base
     register Kaminari::Helpers::SinatraHelpers
     helpers Sinatra::JSON
+    set :public_folder, Proc.new { File.join(root, '..', '..', 'public') }
 
     # Return list of confcalls
     get '/confcalls' do
@@ -92,7 +93,7 @@ module AlloSinatra
     end
 
     get '/call/record/start' do
-      file = '/home/shakaman/test.wav'
+      file = File.join(settings.public_folder, 'test.wav')
       command = "linphonecsh generic 'record #{file}'"
       stdin, stdout, stderr = Open3.popen3(command)
       json command: command, stdout: stdout.readlines, stderr: stderr.readlines
