@@ -9,7 +9,9 @@ module AlloSinatra
   class App < Sinatra::Base
     register Kaminari::Helpers::SinatraHelpers
     helpers Sinatra::JSON
-    set :public_folder, Proc.new { File.join(root, '..', '..', 'public') }
+
+    set :public_folder, File.expand_path('public', AlloSinatra.root)
+    set :views,         File.expand_path('views', AlloSinatra.root)
 
     # Return list of confcalls
     get '/confcalls' do
