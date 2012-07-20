@@ -54,51 +54,48 @@ module AlloSinatra
       end
     end
 
-
-
+    helpers do
+      def command_to_json(command)
+        stdin, stdout, stderr, wait_thr = Open3.popen3(command)
+        json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      end
+    end
 
     get '/init' do
       command = "linphonecsh init -c config/linphonerc"
-      stdin, stdout, stderr = Open3.popen3(command)
-      json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      command_to_json(command)
     end
 
     get '/exit' do
       command = "linphonecsh exit"
-      stdin, stdout, stderr = Open3.popen3(command)
-      json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      command_to_json(command)
     end
 
     get '/status' do
       command = "linphonecsh generic 'status register'"
-      stdin, stdout, stderr = Open3.popen3(command)
-      json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      command_to_json(command)
     end
 
     get '/calls' do
       command = "linphonecsh generic 'calls'"
-      stdin, stdout, stderr = Open3.popen3(command)
-      json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      command_to_json(command)
     end
 
     get '/call/dial/:number' do
       active_record
       command = "linphonecsh dial #{params[:number]}"
-      stdin, stdout, stderr = Open3.popen3(command)
-      json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      command_to_json(command)
     end
 
     get '/call/hangup' do
       command = "linphonecsh hangup"
-      stdin, stdout, stderr = Open3.popen3(command)
-      json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      command_to_json(command)
     end
 
     get '/call/record/start' do
       file = File.join(settings.public_folder, 'test.wav')
       command = "linphonecsh generic 'record #{file}'"
-      stdin, stdout, stderr = Open3.popen3(command)
-      json command: command, stdout: stdout.readlines, stderr: stderr.readlines
+      command_to_json(command)
     end
 
     def active_record
