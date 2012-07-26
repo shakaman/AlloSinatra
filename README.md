@@ -16,18 +16,25 @@ Simple API to record confcall by sip, use [linphone](http://www.linphone.org/)
 ### Install and launch API
  * `gem install bundler`
  * `bundle install`
- * `./bin/allo_sinatra`
+ * `shotgun thin config/allosinatra.ru`
 
 
 ## Routes
- * `/init`
- * `/exit`
- * `/status`
- * `/calls`
- * `/call/dial/:number`
- * `/call/hangup`
- * `/call/record/start`
+ * `GET     /confcalls`
+ * `POST    /confcalls`
+ * `PUT     /confcalls/:id`
+ * `GET     /confcalls/:id`
+ * `DELETE  /confcalls/:id`
 
+## Linphonecsh
+### Command lines
+ * initialize: `linphonecsh init -c config/linphonerc`
+ * exit: `linphonecsh exit`
+ * status: `linphonecsh generic 'status register'`
+ * calls: `linphonecsh generic 'calls'`
+ * dial: `linphonecsh dial #{number}"`
+ * hangup: `linphonecsh hangup`
+ * record/start: `linphonecsh generic 'record #{file}'"`
 
 ##Credits
 ♡2012 by Maxim Bénadon. Copying is an act of love. Please copy and share.

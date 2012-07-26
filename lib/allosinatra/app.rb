@@ -13,6 +13,7 @@ module AlloSinatra
     set :public_folder, File.expand_path('public', AlloSinatra.root)
     set :views,         File.expand_path('views', AlloSinatra.root)
 
+
     # Return list of confcalls
     get '/confcalls' do
       confcall = Confcall.page(params[:page])
@@ -21,8 +22,11 @@ module AlloSinatra
 
     # Create a new confcall
     post '/confcalls' do
+      p params[:confcall]
       confcall = Confcall.new(params[:confcall])
+      p confcall
       if confcall.save
+        start_conf_conf(confcall)
         confcall.to_json
       else
         halt '400'
@@ -61,51 +65,31 @@ module AlloSinatra
       end
     end
 
-    get '/init' do
+    # 404
+    not_found do
+      #haml :not_found, :format => :html5, :layout => :layout
+    end
+
+    private
+
+    def init_linphone
+      p 'init'
       command = "linphonecsh init -c config/linphonerc"
-      command_to_json(command)
-    end
+      Open3.popen3(command)
 
-    get '/exit' do
-      command = "linphonecsh exit"
-      command_to_json(command)
-    end
-
-    get '/status' do
-      command = "linphonecsh generic 'status register'"
-      command_to_json(command)
-    end
-
-    get '/calls' do
-      command = "linphonecsh generic 'calls'"
-      command_to_json(command)
-    end
-
-    get '/call/dial/:number' do
       active_record
-      command = "linphonecsh dial #{params[:number]}"
-      command_to_json(command)
-    end
-
-    get '/call/hangup' do
-      command = "linphonecsh hangup"
-      command_to_json(command)
-    end
-
-    get '/call/record/start' do
-      file = File.join(settings.public_folder, 'test.wav')
-      command = "linphonecsh generic 'record #{file}'"
-      command_to_json(command)
     end
 
     def active_record
+      p 'active record'
       command = "linphonecsh generic 'soundcard use files'"
       Open3.popen3(command)
     end
 
-    # 404
-    not_found do
-      #haml :not_found, :format => :html5, :layout => :layout
+    def start_conf_conf(confcall)
+      init_linphone
+      command = "linphonecsh dial #{confcall[:phone]}"
+      Open3.popen3(command)
     end
 
   end
